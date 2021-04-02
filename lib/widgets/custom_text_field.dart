@@ -12,6 +12,8 @@ class CustomTextField extends StatelessWidget {
   final int maxLines;
   final int maxLength;
   final TextInputType inputType;
+  final TextEditingController controller;
+  final bool obscureText;
   const CustomTextField(
       {Key key,
       this.multiLines = false,
@@ -23,7 +25,9 @@ class CustomTextField extends StatelessWidget {
       this.validator,
       this.initialValue,
       this.onChanged,
-      this.maxLines})
+      this.maxLines,
+      this.controller,
+      this.obscureText})
       : super(key: key);
 
   @override
@@ -65,6 +69,8 @@ class CustomTextField extends StatelessWidget {
             ),
           ),
         ),
+        controller: controller,
+        obscureText: obscureText != null ? obscureText : false,
       ),
     );
   }

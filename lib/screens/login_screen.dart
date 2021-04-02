@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_fire/screens/settings.dart';
 import 'package:flutter_fire/widgets/custom_button.dart';
 import 'package:flutter_fire/widgets/custom_text_field.dart';
-
+import 'package:flutter_fire/screens/signIn_signUp.dart';
 import 'otp_confirmation_screen.dart';
 
 class LogInScreen extends StatelessWidget {
@@ -39,6 +39,20 @@ class LogInScreen extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: widthPiece),
                   child: buildCustomButtonForSendOTPButton(context),
+                ),
+                SizedBox(height: 20),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: widthPiece),
+                  child: CustomButton(
+                    text: 'Use Email',
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        CupertinoPageRoute(
+                          builder: (BuildContext context) => SignInSignUpAuth(),
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ],
             ),
