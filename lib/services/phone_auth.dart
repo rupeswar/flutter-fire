@@ -47,13 +47,13 @@ class PhoneAuth {
     );
   }
 
-  nativeSignIn(context, {@required String smsOTP}) {
+  nativeSignIn(context, {@required String smsOTP}) async {
     try {
       final AuthCredential credential = PhoneAuthProvider.credential(
         verificationId: verificationId,
         smsCode: smsOTP,
       );
-      auth.signInWithCredential(credential);
+      await auth.signInWithCredential(credential);
 
       // Todo After Verification Complete
       Navigator.of(context).pop();
