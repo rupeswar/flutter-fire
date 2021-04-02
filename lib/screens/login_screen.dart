@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_fire/screens/settings.dart';
 import 'package:flutter_fire/widgets/custom_button.dart';
 import 'package:flutter_fire/widgets/custom_text_field.dart';
 
@@ -17,6 +18,7 @@ class LogInScreen extends StatelessWidget {
     var widthPiece = MediaQuery.of(context).size.width / 10;
     return SafeArea(
       child: Scaffold(
+        appBar: appBar(context),
         backgroundColor: Colors.teal[400],
         body: GestureDetector(
           behavior: HitTestBehavior.opaque,
@@ -43,6 +45,25 @@ class LogInScreen extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  AppBar appBar(BuildContext context) {
+    return AppBar(
+      title: Text(
+        'LogIn Screen',
+      ),
+      actions: [
+        IconButton(
+            icon: Icon(Icons.settings),
+            onPressed: () {
+              Navigator.of(context).push(
+                CupertinoPageRoute(
+                  builder: (BuildContext context) => SettingsPage(),
+                ),
+              );
+            }),
+      ],
     );
   }
 

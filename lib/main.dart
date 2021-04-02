@@ -1,7 +1,11 @@
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_fire/services/RoutingService.dart';
-import 'package:flutter_fire/services/phone_auth.dart';
+import 'package:flutter_fire/utils/connectivityService.dart';
+import 'package:flutter_fire/utils/theme_notifier.dart';
+import 'package:flutter_fire/values/theme.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,43 +30,42 @@ class MyApp extends StatelessWidget {
 
         // Once complete, show your application
         if (snapshot.connectionState == ConnectionState.done) {
-          return MaterialApp(
-            title: 'Flutter Demo',
-            theme: ThemeData(
-              primarySwatch: Colors.blue,
-            ),
-            home: RouteBasedOnAuth(),
-          );
+          return RouteBasedOnAuth(
+              builder: (BuildContext context, localUserSnapshot) {
+            return MultiProvider(
+              providers: [
+                ChangeNotifierProvider<ThemeNotifier>(
+                  create: (_) => ThemeNotifier(darkTheme),
+                ),
+                StreamProvider<ConnectivityResult>.value(
+                  value:
+                      ConnectivityService().connectionStatusController.stream,
+                  initialData: null,
+                ),
+              ],
+              child: MaterialApp(
+                debugShowCheckedModeBanner: false,
+                title: 'Flutter Demo',
+                theme: ThemeData(
+                  primarySwatch: Colors.blue,
+                ),
+                home: RouteWidget(currentUserSnapshot: localUserSnapshot),
+              ),
+            );
+          });
         }
+        //   return MaterialApp(
+        //     title: 'Flutter Demo',
+        //     theme: ThemeData(
+        //       primarySwatch: Colors.blue,
+        //     ),
+        //     home: RouteBasedOnAuth(),
+        //   );
+        // }
 
         // Otherwise, show something whilst waiting for initialization to complete
         return CircularProgressIndicator();
       },
-    );
-  }
-}
-
-class HomePage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Home Screen'),
-      ),
-      body: Column(
-        children: [
-          Center(
-            child: Text('Welcome'),
-          ),
-          RaisedButton(
-            onPressed: () {
-              PhoneAuth phoneAuth = PhoneAuth();
-              phoneAuth.signout();
-            },
-            child: Text('Sign Out'),
-          )
-        ],
-      ),
     );
   }
 }
