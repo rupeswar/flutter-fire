@@ -21,6 +21,8 @@ class _SignInSignUpAuthState extends State<SignInSignUpAuth> {
   TextEditingController confirmPasswordEditingController =
       TextEditingController();
 
+  bool verifyEmail = false;
+
   @override
   void dispose() {
     emailEditingController.dispose();
@@ -77,6 +79,20 @@ class _SignInSignUpAuthState extends State<SignInSignUpAuth> {
               _buildFlatButton(),
               SizedBox(height: 25),
               _buildButton(context),
+              SizedBox(height: 25),
+              Row(
+                children: [
+                  Checkbox(
+                    value: verifyEmail,
+                    onChanged: (isChecked) {
+                      setState(() {
+                        verifyEmail = isChecked;
+                      });
+                    },
+                  ),
+                  Text('Verify Email? ($verifyEmail)'),
+                ],
+              )
             ],
           ),
         ),
@@ -164,11 +180,13 @@ class _SignInSignUpAuthState extends State<SignInSignUpAuth> {
                   email: emailEditingController.text,
                   password: passwordEditingController.text,
                   context: context,
+                  verifyEmail: verifyEmail,
                 )
               : EmailAuth().createUser(
                   email: emailEditingController.text,
                   password: passwordEditingController.text,
                   context: context,
+                  verifyEmail: verifyEmail,
                 );
         }
         print(emailEditingController.text);

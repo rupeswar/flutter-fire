@@ -1,4 +1,5 @@
 import 'package:connectivity/connectivity.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fire/screens/settings.dart';
@@ -33,6 +34,20 @@ class HomeScreen extends StatelessWidget {
                 ),
                 Text(
                   'Your registered number is: ${firestoreService.phoneNo}',
+                  style: TextStyle(color: theme.accentColor),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  'Email Verified? : ${FirebaseAuth.instance.currentUser.emailVerified}',
+                  style: TextStyle(color: theme.accentColor),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  'Display Name : ${FirebaseAuth.instance.currentUser.displayName}',
                   style: TextStyle(color: theme.accentColor),
                 ),
                 SizedBox(

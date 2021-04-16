@@ -4,16 +4,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_fire/utils/dialogs.dart';
 
 class EmailAuth {
-  createUser(
-      {@required String email,
-      @required String password,
-      @required BuildContext context}) async {
+  createUser({
+    @required String email,
+    @required String password,
+    @required BuildContext context,
+    @required verifyEmail,
+  }) async {
     try {
       // UserCredential userCredential =
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
+      if (verifyEmail)
+        await FirebaseAuth.instance.currentUser.sendEmailVerification();
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');
@@ -26,16 +30,20 @@ class EmailAuth {
     }
   }
 
-  signInUser(
-      {@required String email,
-      @required String password,
-      @required BuildContext context}) async {
+  signInUser({
+    @required String email,
+    @required String password,
+    @required BuildContext context,
+    @required verifyEmail,
+  }) async {
     try {
       // UserCredential userCredential =
       await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
+      if (verifyEmail)
+        await FirebaseAuth.instance.currentUser.sendEmailVerification();
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         showUserNotRegisteredDialog(context);
